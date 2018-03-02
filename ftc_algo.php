@@ -67,29 +67,20 @@ function individu_prio(){
               take_it();
               $v_proch.in==$i;
               $i.dispo==0;
-              remove_indiv_bd();//remove $i from tab;
+              //remove_indiv_tableau();//remove $i from tab;
               $voiture_pleine=$voiture_pleine++;
+        }
+        foreach ($tableau_time as $i => $value) {
+            $v_proch=voiture_la_plus_proche($i);
+            if (($i.ts-$heure)==dist2indiv($v_proch,$i)) {
+              go_for($v_proch,$i);
             }
-            else {
-              foreach ($tableau_time as $i => $value) {
-                if (($i.ts-$heure)==dist2indiv($v_proch,$i)) {
-                  go_for($v_proch,$i);
-                }
-                elseif((dist2indiv($v_proch,$i)+dist_indiv($i))<=$i.tf-$heure){
-                    go_for($v_proch,$i);
-                }
-                else{
-                  foreach ($tableau_retard as $i => $value) {
-                    go_for($v_proch,$i);
-                  }
-                }
-              }
+            elseif((dist2indiv($v_proch,$i)+dist_indiv($i))<=$i.tf-$heure){
+                go_for($v_proch,$i);
             }
         }
-
-
-
-
-
-
+        foreach ($tableau_retard as $i => $value) {
+            $v_proch=voiture_la_plus_proche($i);
+            go_for($v_proch,$i);
+        }
  ?>

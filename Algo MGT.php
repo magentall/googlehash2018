@@ -60,32 +60,29 @@ function individu_prio(){
 }
 
 /////// APPLI GOOOOOOOOOOOOOOOOOOOOOOOOO /////////////////// 1
-        individu_prio();
-        foreach ($tableau_intime as $i => $value) {
-            $v_proch=voiture_la_plus_proche();
-            if ($v_proch.x==$i.x && $v_proch.y==$i.y) {
-              take_it();
-              $v_proch.in==$i;
-              $i.dispo==0;
-              remove_indiv_bd();//remove $i from tab;
-              $voiture_pleine=$voiture_pleine++;
-            }
-            else {
-              foreach ($tableau_time as $i => $value) {
-                if (($i.ts-$heure)==dist2indiv($v_proch,$i)) {
-                  go_for($v_proch,$i);
-                }
-                elseif((dist2indiv($v_proch,$i)+dist_indiv($i))<=$i.tf-$heure){
-                    go_for($v_proch,$i);
-                }
-                else{
-                  foreach ($tableau_retard as $i => $value) {
-                    go_for($v_proch,$i);
-                  }
-                }
-              }
-            }
-        }
+individu_prio();
+foreach ($tableau_intime as $i => $value) {
+    $v_proch=voiture_la_plus_proche($i);
+    if ($v_proch.x==$i.x && $v_proch.y==$i.y) {
+      take_it();
+      $v_proch.in==$i;
+      $i.dispo==0;
+      remove_indiv_tableau();//remove $i from tab;
+      $voiture_pleine=$voiture_pleine++;
+}
+foreach ($tableau_time as $i => $value) {
+    $v_proch=voiture_la_plus_proche($i);
+    if (($i.ts-$heure)==dist2indiv($v_proch,$i)) {
+      go_for($v_proch,$i);
+    }
+    elseif((dist2indiv($v_proch,$i)+dist_indiv($i))<=$i.tf-$heure){
+        go_for($v_proch,$i);
+    }
+}
+foreach ($tableau_retard as $i => $value) {
+    $v_proch=voiture_la_plus_proche($i);
+    go_for($v_proch,$i);
+}
 
 
 /////// APPLI GOOOOOOOOOOOOOOOOOOOOOOOOO ///////////////////
@@ -100,33 +97,24 @@ for ($heure=0; $heure < 10; $heure++) {
               take_it();
               $v.in==$i;
               $i.dispo==0;
-              remove_indiv_bd();//remove $i from tab;
+              //remove_indiv_bd();//remove $i from tab;
+              $voiture_pleine=$voiture_pleine++;
             }
-            else {
-              foreach ($tableau_time as $i => $value) {
+        }
+        foreach ($tableau_time as $i => $value) {
                 if (($i.ts-$heure)==dist2indiv($v,$i)) {
                   go_for($v,$i);
                 }
                 elseif((dist2indiv($v,$i)+dist_indiv($i))<=$i.tf-$heure){
                     go_for($v,$i);
                 }
-                else{
-                  foreach ($tableau_retard as $i => $value) {
-                    go_for($v,$i);
-                  }
-                }
-              }
-            }
         }
-
+        foreach ($tableau_retard as $i => $value) {
+                    go_for($v,$i);
+        }
       }
-    }
-    else {
-      $voiture_pleine=$voiture_pleine++;
     }
   }
 }
-
-
 
  ?>
